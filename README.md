@@ -35,7 +35,7 @@ Or go directly to Miniconda: https://docs.conda.io/en/latest/miniconda.html
 It should work also on Anaconda: https://docs.anaconda.com/anaconda/install/index.html
 
 ## Set Up before using the code
-It is really suggested to use the already existing environment.
+A. It is really suggested to use the already existing environment.
 <br /> 
 After downloading the file "visual.yml", open the terminal or an Anaconda Prompt, change directory to go to the location where the file is located and do the following steps:
 
@@ -61,7 +61,7 @@ or
 conda info --envs.
 ```
 
-### Unzip the **"fontawesome-free-6.1.0-web.zip"** in **/static**
+B. Unzip the **"fontawesome-free-6.1.0-web.zip"** in **/static**
 
 ## To use the code
 1. Open the terminal or Anaconda Prompt.
