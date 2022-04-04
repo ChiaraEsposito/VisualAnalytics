@@ -14,7 +14,7 @@ This code consists of:
 
 
 ## Dataset
-The dataset used in this project is from Kaggle[^2] and describes heart failure prediction. It includes a csv file, heart.csv, which stores information about patients and contains 11 features that can be used to predict a possible heart disease, considering that heart failure is a common event caused by CVDs. Finally, there is a 12th feature which corresponds to the output class[^3].
+The dataset used in this project is from Kaggle[^2] and describes heart failure prediction. It includes a csv file, **heart.csv**, which stores information about patients and contains 11 features that can be used to predict a possible heart disease, considering that heart failure is a common event caused by CVDs. Finally, there is a 12th feature which corresponds to the output class[^3].
 
 This dataset was created by combining different datasets already available independently but not combined before. In particular, Cleveland (303 observations), Hungarian (294 observations), Switzerland (123 observations), Long Beach VA (200 observations), Stalog (Heart) Data Set (270 observations), with a final dataset of 918 observations, removing duplicates.
 
