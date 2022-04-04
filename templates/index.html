@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<head>
+  <title>Heart Failure Detection</title>
+  <!--Bootstrap-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!--Styles-->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+  <!--Font Awesome
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/> -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='fontawesome-free-6.1.0-web/css/all.css') }}"/>
+  
+  <!--D3.js and ajax-->
+<!-- <script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3.v5.js"></script> -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    d3version7 = d3
+    window.d3 = null
+  </script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+	d3version3 = d3
+	window.d3 = null
+</script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
+
+  
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="module">import d3_colorLegend from "https://api.observablehq.com/@d3/color-legend.js?v=3";</script>
+
+</head>
+
+<body> 
+  <!-- FIRST ROW, all barcharts here -->
+  
+  <div style="display:inline-block" width="100%" style="text-align:center">
+	  <div style="float: left">
+		<i id="sexFilter" class="b fa-solid fa-filter-circle-xmark fa-xl" onclick="removeFilter(this.id);"></i>
+		<br />
+		<svg id="barchart_sex" width="230" height="250"></svg>
+	  </div>
+	  <div style="float: left">
+		<i id="ageFilter" class="b fa-solid fa-filter-circle-xmark fa-xl" onclick="removeFilter(this.id);"></i>
+		<br />
+		<svg id="barchart_age" width="230" height="250"></svg>
+	  </div>
+	  <div style="float: left">
+		<i id="chestFilter" class="b fa-solid fa-filter-circle-xmark fa-xl" onclick="removeFilter(this.id);"></i>
+		<br />
+		<svg id="barchart_chestPain" width="230" height="250"></svg>
+	  </div>
+	  <div style="float: left">
+		<i id="cholFilter" class="b fa-solid fa-filter-circle-xmark fa-xl" onclick="removeFilter(this.id);"></i>
+		<br />
+		<svg id="barchart_cholesterol" width="230" height="250"></svg>
+	  </div>
+	  <div style="float: left">
+		<i id="slopeFilter" class="b fa-solid fa-filter-circle-xmark fa-xl" onclick="removeFilter(this.id);"></i>
+		<br />
+		<svg id="barchart_stSlope" width="230" height="250"></svg>
+	  </div>
+	  <div style="float: left">
+		<i id="maxhrFilter" class="b fa-solid fa-filter-circle-xmark fa-xl" onclick="removeFilter(this.id);"></i>
+		<br />
+		<svg id="barchart_maxHR" width="230" height="250"></svg>
+	  </div>
+	  <div width="100" height="250" style="float: left; margin-top: 50px; margin-left: 10px;">
+		<button class="button" type="button" onclick="location.reload();"><i class="fa-solid fa-filter-circle-xmark"></i> Reset All</button>
+		<br />
+		<br />
+		<input class="checkbox" type="checkbox" id="reduced" name="reduced" value="reduced" onchange="reload()">
+		<label for="reduced" style="vertical-align: middle">Only people <br /> with disease</label>
+	  </div>
+  </div>
+  <!-- SECOND ROW, heat map and scatterplot -->
+  <div style="display:float; padding-top:5px">
+	<div id="scatterplot" style="float:left; width:50%">
+		<label>Resting ECG</label>
+		<label for="tendinaX">X:</label>
+		<select name="tendinaX" id="tendinaX_scatter" onchange="reloadScatter()">
+		  <option value="Age" selected>Age</option>
+		  <option value="Cholesterol">Cholesterol</option>
+		  <option value="RestingBP">RestingBP</option>
+		  <option value="MaxHR">MaxHR</option>
+		</select>
+		<label for="tendinaY">Y:</label>
+		<select name="tendinaY" id="tendinaY_scatter" onchange="reloadScatter()">
+		  <option value="Age">Age</option>
+		  <option value="Cholesterol">Cholesterol</option>
+		  <option value="RestingBP">RestingBP</option>
+		  <option value="MaxHR" selected>MaxHR</option>
+		</select>
+	</div> 
+	<div id="heatmap" style="float:right; width:50%; text-align: center">
+		<label for="tendinaX">X:</label>
+		<select name="tendinaX" id="tendinaX" onchange="reloadHeatmap()">
+		  <option value="Age" selected>Age</option>
+		  <option value="Sex">Sex</option>
+		  <option value="ChestPainType">ChestPainType</option>
+		  <option value="Cholesterol">Cholesterol</option>
+		  <option value="RestingBP">RestingBP</option>
+		  <option value="MaxHR">MaxHR</option>
+		  <option value="ST_Slope">ST_Slope</option>
+		  <option value="RestingECG">RestingECG</option>
+		</select>
+		<label for="tendinaY">Y:</label>
+		<select name="tendinaY" id="tendinaY" onchange="reloadHeatmap()">
+		  <option value="Age">Age</option>
+		  <option value="Sex" selected>Sex</option>
+		  <option value="ChestPainType">ChestPainType</option>
+		  <option value="Cholesterol">Cholesterol</option>
+		  <option value="RestingBP">RestingBP</option>
+		  <option value="MaxHR">MaxHR</option>
+		  <option value="ST_Slope">ST_Slope</option>
+		  <option value="RestingECG">RestingECG</option>
+		</select>
+	</div>
+  </div>
+</body>
+
+<!--Javascript files-->
+<script> 
+var sexFilter, ageFilter, chestFilter, cholFilter, slopeFilter, maxhrFilter;
+var dataset = d3version7.csv("../static/datasets/heart_quantitative2.csv");
+var dataset_scatter = d3version7.csv('./static/datasets/heart_quantitative.csv');
+function datasetFiltering(d,range){
+	//console.log(d.ChestPainType <1);
+	if(sexFilter != null ){
+		document.getElementById("sexFilter").style.color = "#00ff00";
+		if (d.Sex != sexFilter) {
+			return false;
+		}
+	}
+	if(ageFilter != null ){
+		document.getElementById("ageFilter").style.color = "#00ff00";
+		if(range){
+			if (d.Age != ageFilter) {
+				return false;
+			}
+		}
+		else {
+			var a = parseInt(d.Age);
+			
+			switch(ageFilter) {
+				case '0': if(a > 30) {return false;} break;
+				case '1': if(a <= 30 || a > 45) {return false;} break;
+				case '2': if(a <= 45 || a > 60) { return false;} break;
+				case '3': if(a <= 60 || a > 75) {return false;} break;
+				case '4': if(a <= 75 ) {return false;} break;
+				default: break;
+			}
+		}	
+	}
+	if(chestFilter != null ){
+		document.getElementById("chestFilter").style.color = "#00ff00";
+		if (d.ChestPainType != chestFilter) {
+			return false;
+		}
+	}
+	if(cholFilter != null ){
+		document.getElementById("cholFilter").style.color = "#00ff00";
+		if(range){
+			if (d.Cholesterol != cholFilter) {
+				return false;
+			}
+		}
+		else {
+			var a = parseInt(d.Cholesterol);
+			
+			switch(cholFilter) {
+				case '0': if(a > 100) {return false;} break;
+				case '1': if(a <= 100 || a > 200) {return false;} break;
+				case '2': if(a <= 200 || a > 300) { return false;} break;
+				case '3': if(a <= 300 || a > 400) {return false;} break;
+				case '4': if(a <= 400 || a > 500) {return false;} break;
+				case '5': if(a <= 500 ) {return false;} break;
+				default: break;
+			}
+		}	
+	}
+	if(slopeFilter != null ){
+		document.getElementById("slopeFilter").style.color = "#00ff00";
+		if (d.ST_Slope != slopeFilter) {
+			return false;
+		}
+	}
+	if(maxhrFilter != null ){
+		document.getElementById("maxhrFilter").style.color = "#00ff00";
+		if(range){
+			if (d.MaxHR != maxhrFilter) {
+				return false;
+			}
+		}
+		else {
+			var a = parseInt(d.MaxHR);
+			
+			switch(maxhrFilter) {
+				case '0': if(a > 80) {return false;} break;
+				case '1': if(a <= 80 || a > 120) {return false;} break;
+				case '2': if(a <= 120 || a > 160) { return false;} break;
+				case '3': if(a <= 160 ) {return false;} break;
+				default: break;
+			}
+		}	
+	}
+	return true;
+	
+}
+
+</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/barchart-Copia.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/heatmap.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/scatterplot.js')}}"></script>
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='js/parallel.js')}}"></script> -->
+<script>
+function reload(){
+	var check = document.getElementById('reduced').checked;
+	if (check == true){
+	
+		dataset = d3version7.csv("../static/datasets/heart_reduced2.csv");
+		dataset_scatter = d3version7.csv('./static/datasets/heart_reduced.csv');
+	}
+	else {
+		dataset = d3version7.csv("../static/datasets/heart_quantitative2.csv");
+		dataset_scatter = d3version7.csv('./static/datasets/heart_quantitative.csv');
+	}
+	
+	d3.selectAll("g").remove();
+	d3.select("#svg_heatmap").remove();
+	d3.select("#svg_scatterplot").remove();
+	
+	loadBarchart();
+	loadHeatmap();
+	loadScatterplot();
+}
+function reloadHeatmap(){
+	d3.select("#svg_heatmap").remove();
+	loadHeatmap();
+}
+
+function reloadScatter(){
+	d3.select("#svg_scatterplot").remove();
+	loadScatterplot();
+}
+
+function removeFilter(x){
+	switch(x){
+		case 'sexFilter': sexFilter = null; reload(); break;
+		case 'ageFilter': ageFilter = null; reload(); break;
+		case 'chestFilter': chestFilter = null; reload(); break;
+		case 'cholFilter': cholFilter = null; reload(); break;
+		case 'slopeFilter': slopeFilter = null; reload(); break;
+		case 'maxhrFilter': maxhrFilter = null; reload(); break;
+	
+	}
+	document.getElementById(x).style.color = "black";
+}
+	
+</script>
+</html>
