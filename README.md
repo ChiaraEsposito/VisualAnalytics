@@ -20,7 +20,7 @@ This dataset was created by combining different datasets already available indep
 
 
 [^2]:https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
-[^3]: More information can be found in the Report.
+[^3]: More information can be found in the [a relative link](1716809_VisualAnalytics.pdf).
 
 ## Requirements
 The code has been tested using **Python 3.8.12** and **conda 4.10.3**. Other versions are not guaranteed to work correctly.
