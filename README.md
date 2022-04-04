@@ -22,6 +22,18 @@ This dataset was created by combining different datasets already available indep
 [^2]:https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
 [^3]: More information can be found in the [a relative link](1716809_VisualAnalytics.pdf).
 
+## Related works
+We analyzed two different papers: 
+1. V. Gupta, V. Aggarwal, S. Gupta, N. Sharma, K. Sharma and N. Sharma, "Visualization and Prediction of Heart Diseases Using Data Science Framework," 2021 Second International Conference on Electronics and Sustainable Communication Systems (ICESC), 2021, pp. 1199-1202, doi: 10.1109/ICESC51422.2021.9532790 [^4].
+
+2. Rami Lehtinen, Harri Sievänen, Jari Viik, Väinö Turjanmaa, Kari Niemelä, Jaakko Malmivuo, “Accurate detection of coronary artery disease by integrated analysis of the ST-segment depression/heart rate patterns during the exercise and recovery phases of the exercise electrocardiography test”, The American Journal of Cardiology, Volume 78, Issue 9, 1996, Pages 1002-1006, ISSN 0002-9149, https://doi.org/10.1016/S0002-9149(96)00524-3 [^5].
+
+[^4]: https://ieeexplore.ieee.org/document/9532790
+[^5]: https://www.academia.edu/28420325/Accurate_detection_of_coronary_artery_disease_by_integrated_analysis_of_the_ST_segment_depression_heart_rate_patterns_during_the_exercise_and_recovery_phases_of_the_exercise_electrocardiography_test
+
+## Screenshot
+![Screenshot](screenshot.png)
+
 ## Requirements
 The code has been tested using **Python 3.8.12** and **conda 4.10.3**. Other versions are not guaranteed to work correctly.
 
