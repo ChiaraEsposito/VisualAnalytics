@@ -60,6 +60,9 @@ or
 ```
 conda info --envs.
 ```
+
+### Unzip the "fontawesome-free-6.1.0-web.zip" in /static
+
 ## To use the code
 1. Open the terminal or Anaconda Prompt.
 2. Activate "visual".
