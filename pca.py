@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 """PCA.ipynb
 
@@ -75,7 +76,7 @@ def pca():
                       inplace=True)
     original_data.to_csv('./static/datasets/heart_quantitative.csv',
                      index=False)                  
-    reduced_data = pd.read_csv('./static/datasets/heart.csv')
+    reduced_data = pd.read_csv('./static/datasets/heart_quantitative.csv')
     reduced_data.drop(reduced_data[reduced_data['HeartDisease'] == 0].index, inplace = True)    
     reduced_data.to_csv('./static/datasets/heart_reduced.csv',
                      index=False)
