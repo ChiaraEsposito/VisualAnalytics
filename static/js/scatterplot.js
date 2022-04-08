@@ -99,7 +99,7 @@ function loadScatterplot(){
 			.range(["#27AE60", "#e67e22", "#eff542", "#e33320"]);*/
 		var colorScale = d3version3.scale.category10()
 			.domain([0, 1, 2])
-			.range(["green", "yellow", "orange"]);
+			.range(["#ef87be", "#ed30cd", "#b30041"]);
 		// SVG
 		var svg = div.append('svg')
 			.attr("id", "svg_scatterplot")
@@ -134,7 +134,7 @@ function loadScatterplot(){
 			d3version3.select(this)
 			  .transition()
 			  .duration(500)
-			  .attr('r',10)
+			  .attr('r',20)
 			  .attr('stroke-width',1)
 		  })
 		  .on('mouseout', function () {
@@ -152,6 +152,7 @@ function loadScatterplot(){
 		  .attr('class','axis')
 		  .attr('transform', 'translate(0,' + h + ')')
 		  .call(xAxis)
+		  .attr("fill", "black")
 		.append('text') // X-axis Label
 		  .attr('class','label')
 		  .attr('y',-10)
@@ -163,6 +164,7 @@ function loadScatterplot(){
 	  svg.append('g')
 		  .attr('class', 'axis')
 		  .call(yAxis)
+		  .attr("fill", "black")
 		.append('text') // y-axis Label
 		  .attr('class','label')
 		  .attr('transform','rotate(-90)')
@@ -172,12 +174,12 @@ function loadScatterplot(){
 		  .style('text-anchor','end')
 		  .text('');
 		  
-	  svg.append("circle").attr("cx",550).attr("cy",30).attr("r", 10).style("fill", "green")
-	  svg.append("circle").attr("cx",550).attr("cy",60).attr("r", 10).style("fill", "yellow")
-	  svg.append("circle").attr("cx",550).attr("cy",90).attr("r", 10).style("fill", "orange")
-	  svg.append("text").attr("x", 570).attr("y", 30).text("ECG Normal").style("font-size", "18px").attr("alignment-baseline","middle")
-	  svg.append("text").attr("x", 570).attr("y", 60).text("ECG ST").style("font-size", "18px").attr("alignment-baseline","middle")
-	  svg.append("text").attr("x", 570).attr("y", 90).text("ECG LVH").style("font-size", "18px").attr("alignment-baseline","middle")
+	  svg.append("circle").attr("cx",550).attr("cy",30).attr("r", 10).style("fill", "#ef87be")
+	  svg.append("circle").attr("cx",550).attr("cy",60).attr("r", 10).style("fill", "#ed30cd")
+	  svg.append("circle").attr("cx",550).attr("cy",90).attr("r", 10).style("fill", "#b30041")
+	  svg.append("text").attr("x", 570).attr("y", 30).text("ECG Normal").style("font-size", "18px").attr("alignment-baseline","middle").attr("fill", "black")
+	  svg.append("text").attr("x", 570).attr("y", 60).text("ECG ST").style("font-size", "18px").attr("alignment-baseline","middle").attr("fill", "black")
+	  svg.append("text").attr("x", 570).attr("y", 90).text("ECG LVH").style("font-size", "18px").attr("alignment-baseline","middle").attr("fill", "black")
 	});
 	
 		

@@ -36,6 +36,8 @@ function loadBarchart(){
 			.attr("transform", "translate(" + 40 + "," + 60 + ")");
 		
 		svg_sex.innerHTML = "";
+		data = data.sort(function(a, b) { return d3version7.ascending(a.Sex, b.Sex)});
+		originalData = originalData.sort(function(a, b) { return d3version7.ascending(a.Sex, b.Sex)});
 		
 		xScale.domain(data.map(function(d) { return d.Sex; }));
 		yScale.domain([0, d3version7.max(data, function(d) { 
@@ -57,6 +59,9 @@ function loadBarchart(){
 		});
 		return d.count; })]);
 		
+		var colorScale = d3version3.scale.category10();
+		colorScale.domain(originalData.map(function (d){ return d.Sex; }));
+		colorScale.range(["navy", "pink"]);
 		
 		
 		g_sex.append("g")
@@ -65,8 +70,9 @@ function loadBarchart(){
 			 var gender = ["Male", "Female"]
 			 return gender[d % 2]
 		 }))
+		 .style("color", "black")
 		 .append("text")
-		 .style("font-size", "10px")
+		 .style("font-size", "12px")
 		 .attr("y", height_sex - 120)
 		 .attr("x", width_sex - 50)
 		 .attr("text-anchor", "end")
@@ -78,6 +84,7 @@ function loadBarchart(){
 			 return "" + d;
 		 })
 		 .ticks(5))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("transform", "rotate(-90)")
 		 .attr("y", 7)
@@ -95,7 +102,13 @@ function loadBarchart(){
 		 .attr("x", function(d) { return xScale(d.Sex); })
 		 .attr("y", function(d) { return yScale(d.count); })
 		 .attr("width", xScale.bandwidth())
-		 .attr("height", function(d) { return height_sex - yScale(d.count); });
+		 .attr("height", function(d) { return height_sex - yScale(d.count); })
+		 .attr("fill", function (d){return colorScale(d.Sex)});
+		 
+		svg_sex.append("circle").attr("cx",180).attr("cy",10).attr("r", 6).style("fill", "navy");
+		svg_sex.append("circle").attr("cx",180).attr("cy",25).attr("r", 6).style("fill", "pink");
+		svg_sex.append("text").attr("x", 190).attr("y", 10).text("Male").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_sex.append("text").attr("x", 190).attr("y", 25).text("Female").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
 
 
 		//Age
@@ -137,13 +150,16 @@ function loadBarchart(){
 			
 		//var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
 		var colorScale = d3version3.scale.category10();
-		colorScale.domain(originalData.map(function (d){ return d.Age; }));	
+		colorScale.domain(originalData.map(function (d){ return d.Age; }));
+		colorScale.range(["#7ce8ff", "#60bbf7", "#008fff", "#0080bf", "#0043ae"]);
+		//colorScale.range(["black", "blue"]);
 			
 		g_age.append("g")
 		 .attr("transform", "translate(0," + height_age + ")")
 		 .call(d3version7.axisBottom(xScale).tickFormat(''))
+		 .style("color", "black")
 		 .append("text")
-		 .style("font-size", "10px")
+		 .style("font-size", "12px")
 		 .attr("y", height_age - 120)
 		 .attr("x", width_age - 50)
 		 .attr("text-anchor", "end")
@@ -155,6 +171,7 @@ function loadBarchart(){
 			 return "" + d;
 		 })
 		 .ticks(5))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("transform", "rotate(-90)")
 		 .attr("y", 7)
@@ -181,16 +198,16 @@ function loadBarchart(){
 				}
 			});*/
 		 
-		svg_age.append("circle").attr("cx",180).attr("cy",10).attr("r", 6).style("fill", d3.schemeCategory10[0]);
-		svg_age.append("circle").attr("cx",180).attr("cy",25).attr("r", 6).style("fill", d3.schemeCategory10[1]);
-		svg_age.append("circle").attr("cx",180).attr("cy",40).attr("r", 6).style("fill", d3.schemeCategory10[2]);
-		svg_age.append("circle").attr("cx",180).attr("cy",55).attr("r", 6).style("fill", d3.schemeCategory10[3]);
-		svg_age.append("circle").attr("cx",180).attr("cy",70).attr("r", 6).style("fill", d3.schemeCategory10[4]);
-		svg_age.append("text").attr("x", 190).attr("y", 10).text("0-30").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_age.append("text").attr("x", 190).attr("y", 25).text("30-45").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_age.append("text").attr("x", 190).attr("y", 40).text("45-60").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_age.append("text").attr("x", 190).attr("y", 55).text("60-75").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_age.append("text").attr("x", 190).attr("y", 70).text("75-90").style("font-size", "8px").attr("alignment-baseline","middle");
+		svg_age.append("circle").attr("cx",180).attr("cy",10).attr("r", 6).style("fill", "#7ce8ff");
+		svg_age.append("circle").attr("cx",180).attr("cy",25).attr("r", 6).style("fill", "#60bbf7");
+		svg_age.append("circle").attr("cx",180).attr("cy",40).attr("r", 6).style("fill", "#008fff");
+		svg_age.append("circle").attr("cx",180).attr("cy",55).attr("r", 6).style("fill", "#0080bf");
+		svg_age.append("circle").attr("cx",180).attr("cy",70).attr("r", 6).style("fill", "#0043ae");
+		svg_age.append("text").attr("x", 190).attr("y", 10).text("0-30").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_age.append("text").attr("x", 190).attr("y", 25).text("30-45").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_age.append("text").attr("x", 190).attr("y", 40).text("45-60").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_age.append("text").attr("x", 190).attr("y", 55).text("60-75").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_age.append("text").attr("x", 190).attr("y", 70).text("75-90").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
 
 	
 		//ChestPainType
@@ -230,16 +247,19 @@ function loadBarchart(){
 		});
 		return d.count; })]);
 		
-		var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
+		//var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
+		var colorScale = d3version3.scale.category10();
 		colorScale.domain(originalData.map(function (d){ return d.ChestPainType; }));
-		
+		colorScale.range(["#dc86fa", "#c030ed", "#9600b3", "#770087"]);
 		g_chest.append("g")
 		 .attr("transform", "translate(0," + height_chest + ")")
 		 .call(d3version7.axisBottom(xScale).tickFormat(function (d) {
 			 var types = ["ASY", "TA", "ATA", "NAP"]
 			 return types[d % 4]
 		 }))
+		 .style("color", "black")
 		 .append("text")
+		 .style("font-size", "12px")
 		 .attr("y", height_chest -120)
 		 .attr("x", width_chest - 20)
 		 .attr("text-anchor", "end")
@@ -251,6 +271,7 @@ function loadBarchart(){
 			 return "" + d;
 		 })
 		 .ticks(5))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("transform", "rotate(-90)")
 		 .attr("y", 7)
@@ -270,14 +291,14 @@ function loadBarchart(){
 		 .attr("height", function(d) { return height_chest - yScale(d.count); })
 		 .attr("fill", function (d){return colorScale(d.ChestPainType);});
 			
-		svg_chest.append("circle").attr("cx",140).attr("cy",10).attr("r", 6).style("fill", d3.schemeCategory10[0]);
-		svg_chest.append("circle").attr("cx",140).attr("cy",25).attr("r", 6).style("fill", d3.schemeCategory10[1]);
-		svg_chest.append("circle").attr("cx",140).attr("cy",40).attr("r", 6).style("fill", d3.schemeCategory10[2]);
-		svg_chest.append("circle").attr("cx",140).attr("cy",55).attr("r", 6).style("fill", d3.schemeCategory10[3]);
-		svg_chest.append("text").attr("x", 150).attr("y", 10).text("ASYmptomatic").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chest.append("text").attr("x", 150).attr("y", 25).text("Typical Angina").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chest.append("text").attr("x", 150).attr("y", 40).text("A-Typical Angina").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chest.append("text").attr("x", 150).attr("y", 55).text("Non-Anginal Pain").style("font-size", "8px").attr("alignment-baseline","middle");
+		svg_chest.append("circle").attr("cx",140).attr("cy",10).attr("r", 6).style("fill", "#dc86fa");
+		svg_chest.append("circle").attr("cx",140).attr("cy",25).attr("r", 6).style("fill", "#c030ed");
+		svg_chest.append("circle").attr("cx",140).attr("cy",40).attr("r", 6).style("fill", "#9600b3");
+		svg_chest.append("circle").attr("cx",140).attr("cy",55).attr("r", 6).style("fill", "#770087");
+		svg_chest.append("text").attr("x", 150).attr("y", 10).text("ASYmptomatic").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chest.append("text").attr("x", 150).attr("y", 25).text("Typical Angina").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chest.append("text").attr("x", 150).attr("y", 40).text("A-Typical Angina").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chest.append("text").attr("x", 150).attr("y", 55).text("Non-Anginal Pain").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
 
 		//Cholesterol
 		var svg_chol = d3version7.select("#barchart_cholesterol"),
@@ -316,15 +337,18 @@ function loadBarchart(){
 		});
 		return d.count; })]);
 		
-		
-		var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
+		var colorScale = d3version3.scale.category10();
+		//var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
 		colorScale.domain(originalData.map(function (d){ return d.Cholesterol; }));
+		colorScale.range(["#ffe134", "#ffbf2e", "#ff9e28", "#fe7c22", "#fe5a1c", "#ed4100"]);
+		
 		
 		g_chol.append("g")
-		 .style("font-size", "10px")
 		 .attr("transform", "translate(0," + height_chol + ")")
 		 .call(d3version7.axisBottom(xScale).tickFormat(''))
+		 .style("color", "black")
 		 .append("text")
+		 .style("font-size", "12px")
 		 .attr("y", height_chol -120)
 		 .attr("x", width_chol - 20)
 		 .attr("text-anchor", "end")
@@ -337,6 +361,7 @@ function loadBarchart(){
 			 return "" + d;
 		 })
 		 .ticks(5))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("transform", "rotate(-90)")
 		 .attr("y", 7)
@@ -357,18 +382,18 @@ function loadBarchart(){
 		 .attr("fill", function (d){ return colorScale(d.Cholesterol);});
 		 
 		 
-		svg_chol.append("circle").attr("cx",170).attr("cy",10).attr("r", 6).style("fill", d3.schemeCategory10[0]);
-		svg_chol.append("circle").attr("cx",170).attr("cy",25).attr("r", 6).style("fill", d3.schemeCategory10[1]);
-		svg_chol.append("circle").attr("cx",170).attr("cy",40).attr("r", 6).style("fill", d3.schemeCategory10[2]);
-		svg_chol.append("circle").attr("cx",170).attr("cy",55).attr("r", 6).style("fill", d3.schemeCategory10[3]);
-		svg_chol.append("circle").attr("cx",170).attr("cy",70).attr("r", 6).style("fill", d3.schemeCategory10[4]);
-		svg_chol.append("circle").attr("cx",170).attr("cy",85).attr("r", 6).style("fill", d3.schemeCategory10[5]);
-		svg_chol.append("text").attr("x", 180).attr("y", 10).text("<100").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chol.append("text").attr("x", 180).attr("y", 25).text("100-200").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chol.append("text").attr("x", 180).attr("y", 40).text("200-300").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chol.append("text").attr("x", 180).attr("y", 55).text("300-400").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chol.append("text").attr("x", 180).attr("y", 70).text("400-500").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_chol.append("text").attr("x", 180).attr("y", 85).text(">500").style("font-size", "8px").attr("alignment-baseline","middle");
+		svg_chol.append("circle").attr("cx",170).attr("cy",10).attr("r", 6).style("fill", "#ffe134"); //("fill", d3.schemeCategory10[1])
+		svg_chol.append("circle").attr("cx",170).attr("cy",25).attr("r", 6).style("fill", "#ffbf2e");
+		svg_chol.append("circle").attr("cx",170).attr("cy",40).attr("r", 6).style("fill", "#ff9e28");
+		svg_chol.append("circle").attr("cx",170).attr("cy",55).attr("r", 6).style("fill", "#fe7c22");
+		svg_chol.append("circle").attr("cx",170).attr("cy",70).attr("r", 6).style("fill", "#fe5a1c");
+		svg_chol.append("circle").attr("cx",170).attr("cy",85).attr("r", 6).style("fill", "#ed4100");
+		svg_chol.append("text").attr("x", 180).attr("y", 10).text("<100").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chol.append("text").attr("x", 180).attr("y", 25).text("100-200").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chol.append("text").attr("x", 180).attr("y", 40).text("200-300").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chol.append("text").attr("x", 180).attr("y", 55).text("300-400").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chol.append("text").attr("x", 180).attr("y", 70).text("400-500").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_chol.append("text").attr("x", 180).attr("y", 85).text(">500").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
 		
 		//ST Slope Type
 		var svg_slope = d3version7.select("#barchart_stSlope"),
@@ -408,6 +433,9 @@ function loadBarchart(){
 		});
 		return d.count; })]);
 		
+		var colorScale = d3version3.scale.category10();
+		colorScale.domain(originalData.map(function (d){ return d.ST_Slope; }));
+		colorScale.range(["#ede0d4", "#ddb892", "#7f5539"]);
 		
 		
 		g_slope.append("g")
@@ -416,8 +444,9 @@ function loadBarchart(){
 			 var types = ["Down", "Flat", "Up"]
 			 return types[d % 3]
 		 }))
+		 .style("color", "black")
 		 .append("text")
-		 .style("font-size", "10px")
+		 .style("font-size", "12px")
 		 .attr("y", height_slope -120)
 		 .attr("x", width_slope - 40)
 		 .attr("text-anchor", "end")
@@ -429,6 +458,7 @@ function loadBarchart(){
 			 return "" + d;
 		 })
 		 .ticks(6))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("transform", "rotate(-90)")
 		 .attr("y", 5)
@@ -446,8 +476,17 @@ function loadBarchart(){
 		 .attr("x", function(d) { return xScale(d.ST_Slope); })
 		 .attr("y", function(d) { return yScale(d.count); })
 		 .attr("width", xScale.bandwidth())
-		 .attr("height", function(d) { return height_slope - yScale(d.count); });
-
+		 .attr("height", function(d) { return height_slope - yScale(d.count); })
+		 .attr("fill", function (d){ return colorScale(d.ST_Slope);});
+		 
+		
+		svg_slope.append("circle").attr("cx",170).attr("cy",10).attr("r", 6).style("fill", "#ede0d4"); //("fill", d3.schemeCategory10[1])
+		svg_slope.append("circle").attr("cx",170).attr("cy",25).attr("r", 6).style("fill", "#ddb892");
+		svg_slope.append("circle").attr("cx",170).attr("cy",40).attr("r", 6).style("fill", "#7f5539");
+		svg_slope.append("text").attr("x", 180).attr("y", 10).text("Down").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_slope.append("text").attr("x", 180).attr("y", 25).text("Flat").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_slope.append("text").attr("x", 180).attr("y", 40).text("Up").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		
 
 		//MAX Heart Rate
 		var svg_hr = d3version7.select("#barchart_maxHR"),
@@ -486,13 +525,17 @@ function loadBarchart(){
 		});
 		return d.count; })]);
 		
-		var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
+		//var colorScale = d3version7.scaleOrdinal(d3version7.schemeCategory10);
+		var colorScale = d3version3.scale.category10();
 		colorScale.domain(originalData.map(function (d){ return d.MaxHR; }));
+		colorScale.range(["#c1ff1c", "#78d23d", "#3aa346", "#1c6646"]);
+		
 		
 		g_hr.append("g")
-		 .style("font-size", "10px")
+		 .style("font-size", "12px")
 		 .attr("transform", "translate(0," + height_hr + ")")
 		 .call(d3version7.axisBottom(xScale).tickFormat(''))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("y", height_hr - 120)
 		 .attr("x", width_hr - 10)
@@ -506,6 +549,7 @@ function loadBarchart(){
 			 return "" + d;
 		 })
 		 .ticks(5))
+		 .style("color", "black")
 		 .append("text")
 		 .attr("transform", "rotate(-90)")
 		 .attr("y", 7)
@@ -526,14 +570,14 @@ function loadBarchart(){
 		 .attr("fill", function (d){ return colorScale(d.MaxHR);});
 			
 		 
-		svg_hr.append("circle").attr("cx",180).attr("cy",10).attr("r", 6).style("fill", d3.schemeCategory10[0]);
-		svg_hr.append("circle").attr("cx",180).attr("cy",25).attr("r", 6).style("fill", d3.schemeCategory10[1]);
-		svg_hr.append("circle").attr("cx",180).attr("cy",40).attr("r", 6).style("fill", d3.schemeCategory10[2]);
-		svg_hr.append("circle").attr("cx",180).attr("cy",55).attr("r", 6).style("fill", d3.schemeCategory10[3]);
-		svg_hr.append("text").attr("x", 190).attr("y", 10).text("<80").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_hr.append("text").attr("x", 190).attr("y", 25).text("80-120").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_hr.append("text").attr("x", 190).attr("y", 40).text("120-160").style("font-size", "8px").attr("alignment-baseline","middle");
-		svg_hr.append("text").attr("x", 190).attr("y", 55).text(">160").style("font-size", "8px").attr("alignment-baseline","middle");
+		svg_hr.append("circle").attr("cx",180).attr("cy",10).attr("r", 6).style("fill", "#c1ff1c");
+		svg_hr.append("circle").attr("cx",180).attr("cy",25).attr("r", 6).style("fill", "#78d23d");
+		svg_hr.append("circle").attr("cx",180).attr("cy",40).attr("r", 6).style("fill", "#3aa346");
+		svg_hr.append("circle").attr("cx",180).attr("cy",55).attr("r", 6).style("fill", "#1c6646");
+		svg_hr.append("text").attr("x", 190).attr("y", 10).text("<80").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_hr.append("text").attr("x", 190).attr("y", 25).text("80-120").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_hr.append("text").attr("x", 190).attr("y", 40).text("120-160").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
+		svg_hr.append("text").attr("x", 190).attr("y", 55).text(">160").style("font-size", "8px").attr("alignment-baseline","middle").attr("fill", "black");
 		
 	}
 )}	

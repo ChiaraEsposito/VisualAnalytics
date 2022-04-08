@@ -27,7 +27,7 @@ function loadHeatmap(){
       margin = {top: 120, right: 20, bottom: 20, left: 210};
       
 	var width = 750 - margin.right - margin.left,
-      height = 500 - margin.top - margin.bottom;
+      height = 600 - margin.top - margin.bottom;
 
 	var formatDate = d3version3.time.format("%Y-%m-%d");
 	//var dataset = d3version7.csv('./static/datasets/heart_quantitative2.csv');
@@ -57,7 +57,7 @@ function loadHeatmap(){
 				case "Age": newItem.y = item.Age; label_y = ['0-30', '30-45', '45-60', '60-75', '75-90']; n_y=5; break;
 				case "Sex": newItem.y = item.Sex; label_y = ['Male', 'Female']; n_y=2; break;
 				case "ChestPainType": newItem.y = item.ChestPainType; label_y = ['ASY', 'TA', 'ATA', 'NAP']; n_y=4; break;
-				case "Cholesterol": newItem.y = item.Cholesterol; label_y = ['<100', '100-200', '200-300', '300-400', '400-500', '>500']; n_x=6; break;
+				case "Cholesterol": newItem.y = item.Cholesterol; label_y = ['<100', '100-200', '200-300', '300-400', '400-500', '>500']; n_y=6; break;
 				case "RestingBP": newItem.y = item.RestingBP; label_y = ['<80', '80-110', '110-140', '>170']; n_y=4; break;
 				case "MaxHR": newItem.y = item.MaxHR; label_y = ['<80', '80-120', '120-160', '>160']; n_y=4; break;
 				case "RestingECG": newItem.y = item.RestingECG; label_y = ['Normal', 'ST', 'LVH']; n_y =3; break;
@@ -96,7 +96,7 @@ function loadHeatmap(){
 			
 		var colorScale = d3version3.scale.category10()
 			.domain([0, 1])
-			.range(["green", "red"]);
+			.range(["#73db0b", "#db0b0b"]);
 			
 		var svg = d3version3.select('#heatmap')
 			.append("svg")
@@ -113,6 +113,7 @@ function loadHeatmap(){
 			.attr('class', 'cell')
 			.attr('width', cellSize)
 			.attr('height', cellSize)
+			.attr('color', 'black')
 			.attr('y', function(d) { return yScale(d.x); })
 			.attr('x', function(d) { return xScale(d.y); })
 			.on("click", function(c,v){ check(c, tendinaX, tendinaY); reload();})
@@ -120,12 +121,14 @@ function loadHeatmap(){
 
 		svg.append("g")
 			.attr("class", "y axis")
+			.attr("fill", "black")
 			.call(yAxis)
 			.selectAll('text')
 			.attr('font-weight', 'normal');
 
 		svg.append("g")
 			.attr("class", "x axis")
+			.attr("fill", "black")
 			.call(xAxis)
 			.selectAll('text')
 			.attr('font-weight', 'normal')
@@ -136,11 +139,11 @@ function loadHeatmap(){
 				return "rotate(-65)";
 			});
 			
-		svg.append("circle").attr("cx",300).attr("cy",30).attr("r", 10).style("fill", "green")
-		svg.append("circle").attr("cx",300).attr("cy",60).attr("r", 10).style("fill", "red")
+		svg.append("circle").attr("cx",300).attr("cy",30).attr("r", 10).style("fill", "#73db0b")
+		svg.append("circle").attr("cx",300).attr("cy",60).attr("r", 10).style("fill", "#db0b0b")
 		//svg.append("circle").attr("cx",300).attr("cy",90).attr("r", 10).style("fill", "purple")
-		svg.append("text").attr("x", 320).attr("y", 30).text("No Heart Disease").style("font-size", "18px").attr("alignment-baseline","middle")
-		svg.append("text").attr("x", 320).attr("y", 60).text("Heart Disease").style("font-size", "18px").attr("alignment-baseline","middle")
+		svg.append("text").attr("x", 320).attr("y", 30).text("No Heart Disease").style("font-size", "18px").attr("alignment-baseline","middle").attr("fill", "black")
+		svg.append("text").attr("x", 320).attr("y", 60).text("Heart Disease").style("font-size", "18px").attr("alignment-baseline","middle").attr("fill", "black")
 		//svg.append("text").attr("x", 320).attr("y", 90).text("ST Slope Up").style("font-size", "18px").attr("alignment-baseline","middle")
 	  });
 }
