@@ -9,7 +9,8 @@
 }
 
 body{
-	background: white;
+	background: #f5f5f5;
+	/*background: #181818; #2f4f4f*/
 }
 
 svg{
@@ -22,11 +23,13 @@ svg{
 	width: 90%;
 	height: 36px;
   border: none;
-  color: black;
+  color: white;
+  background-color: #2f4f4f; /*#0abab5*/
   padding: 5px 2px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
+  border-radius: 12px;
   font-size: 14px;
   margin: 4px 2px;
   cursor: pointer;
@@ -38,17 +41,47 @@ svg{
 	margin-bottom: -20px;
 	z-index: 100;
 	cursor:pointer;
+	color: #2f4f4f;
 }
 
 .checkbox {
-	width: 15px;
-	height: 15px;
+	width: 17px;
+	height: 17px;
+}
+.select{
+font-size: 1rem;
+  font-weight: normal;
+  max-width: 100%;
+  padding: 5px 8px 5px 8px;
+  border: 0.5px;
+  background-color: #2f4f4f;
+  color: white;
+  border-radius: 12px;
+  margin-top: 5px;
+}
+.select:active, .select:focus {
+  outline: none;
+  box-shadow: none;
+}
+.select-dropdown:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 0;
+  height: 0;
+  margin-top: -2px;
+  border-top: 5px solid #aaa;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
+
+/*
 .bar_sex{
 	fill: navy;
 }
-/*
+
 .bar_age{
 	fill: violet;
 }
@@ -64,7 +97,8 @@ svg{
 .bar_hr{
 	fill: purple;
 }
-*/
+
 .bar_slope{
 	fill: red;
 }
+*/
