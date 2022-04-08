@@ -3,7 +3,7 @@ Cardiovascular diseases (CVDs) are the number 1 cause of death globally, taking 
 
 People with cardiovascular disease or who are at high cardiovascular risk (due to the presence of one or more risk factors such as hypertension, diabetes, hyperlipidaemia or already established disease) need early detection and management wherein a machine learning model can be of great help for doctors, especially cardiologists.
 
-The idea is to create an interactive dashboard that allows to see the different elements that may contribute to a heart failure, in order to detect and prevent possible diseases. 
+The idea is to create an interactive dashboard that allows doctors to see the different elements that may contribute to a heart failure, in order to detect and prevent possible diseases. 
 It will be possible to monitor different elements, such as cholesterol, blood pressure, chest pain, maximum heart rate, etc... according to age and sex of the different people.
 
 
